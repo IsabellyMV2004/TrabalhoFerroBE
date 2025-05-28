@@ -12,6 +12,7 @@ import unoeste.fipp.mercadofipp.entities.Usuario;
 import unoeste.fipp.mercadofipp.services.UsuarioService;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("apis/usuario")
@@ -60,10 +61,14 @@ public class UsuarioRestController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteUsuario(@PathVariable Long id){
-        if(usuarioService.delete(id))
-            return ResponseEntity.noContent().build();
-        else
-            return ResponseEntity.badRequest().body(new Erro("Erro ao deletar usuario"));
+        boolean sucesso = usuarioService.delete(id);
+        if (sucesso) {
+            return ResponseEntity.ok().body(Map.of("mensagem", "Usuário deletado com sucesso"));
+        } else {
+            return ResponseEntity.badRequest().body(new Erro("Usuário não encontrado ou erro ao deletar"));
+        }
     }
+
+
 
 }

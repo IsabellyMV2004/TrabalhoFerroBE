@@ -20,17 +20,32 @@ public class UsuarioService {
         return usuarioRepository.findById(id).orElse(null);
     }
 
-    public Usuario save(Usuario usuario){
+    /*public Usuario save(Usuario usuario){
         try{
             Usuario novoUsuario = usuarioRepository.save(usuario);
             return novoUsuario;
         }catch(Exception e){
             return null;
         }
+    }*/
+
+
+    public Usuario save(Usuario usuario){
+        try {
+            return usuarioRepository.save(usuario);
+        } catch(Exception e) {
+            e.printStackTrace(); // mostra a exceção no console
+            return null;
+        }
     }
 
+
+
     public boolean delete(Long id){
-        Usuario usuario=usuarioRepository.findById(id).orElse(null);
+        Usuario usuario = usuarioRepository.findById(id).orElse(null);
+        if (usuario == null) {
+            return false;
+        }
         try{
             usuarioRepository.delete(usuario);
             return true;
@@ -38,4 +53,5 @@ public class UsuarioService {
             return false;
         }
     }
+
 }
