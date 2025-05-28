@@ -26,20 +26,20 @@ public class AnuncioRestController {
             return ResponseEntity.badRequest().body(new Erro("Anuncios não encontrados"));
     }
 
+    @GetMapping("{titulo}")
+    public ResponseEntity<Object> getTitulo(@PathVariable(name="titulo") String titulo){
+        Anuncio anuncio = anuncioService.getName(titulo);
+        if(anuncio!=null)
+            return ResponseEntity.ok(anuncio);
+        return ResponseEntity.badRequest().body(new Erro("Anuncio não encontrado"));
+    }
+
     @GetMapping("add-pergunta/{id}/{texto}")
     public ResponseEntity<Object> addPergunta(@PathVariable(name="id") Long idAnuncio, @PathVariable(name="texto") String texto){
         if(anuncioService.addPergunta(idAnuncio,texto))
             return ResponseEntity.noContent().build();
         else
             return ResponseEntity.badRequest().body(new Erro("Erro ao adicionar pergunta"));
-    }
-
-    @GetMapping("add-resposta/{id}/{texto}")
-    public ResponseEntity<Object> addResposta(@PathVariable(name="id") Long idPergunta, @PathVariable(name="texto") String texto){
-        if(anuncioService.addResposta(idPergunta,texto))
-            return ResponseEntity.noContent().build();
-        else
-            return ResponseEntity.badRequest().body(new Erro("Erro ao adicionar resposta"));
     }
 
     @PostMapping
