@@ -6,52 +6,45 @@ import unoeste.fipp.mercadofipp.entities.Usuario;
 import unoeste.fipp.mercadofipp.repositories.UsuarioRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UsuarioService {
+
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    public List<Usuario> getAll(){
+    public List<Usuario> getAll() {
         return usuarioRepository.findAll();
     }
 
-    public Usuario getById(Long id){
+    public Usuario getById(Long id) {
         return usuarioRepository.findById(id).orElse(null);
     }
 
-    /*public Usuario save(Usuario usuario){
-        try{
-            Usuario novoUsuario = usuarioRepository.save(usuario);
-            return novoUsuario;
-        }catch(Exception e){
-            return null;
-        }
-    }*/
-
-
-    public Usuario save(Usuario usuario){
+    public Usuario save(Usuario usuario) {
         try {
             return usuarioRepository.save(usuario);
-        } catch(Exception e) {
-            e.printStackTrace(); // mostra a exceção no console
+        } catch (Exception e) {
             return null;
         }
     }
 
-
-
-    public boolean delete(Long id){
-        Usuario usuario = usuarioRepository.findById(id).orElse(null);
-        if (usuario == null) {
-            return false;
+    public boolean delete(Long id) {
+        Optional<Usuario> usuario = usuarioRepository.findById(id);
+        if (usuario.isPresent()) {
+            try {
+                usuarioRepository.delete(usuario.get());
+                return true;
+            } catch (Exception e) {
+                return false;
+            }
         }
-        try{
-            usuarioRepository.delete(usuario);
-            return true;
-        }catch(Exception e){
-            return false;
-        }
+        return false;
     }
 
+    public Usuario logar(String nome, String senha) {
+        Optional<Usuario> usuario = usuarioRepository.findByNomeAndSenha(nome, senha);
+        return usuario.orElse(null);
+    }
 }
