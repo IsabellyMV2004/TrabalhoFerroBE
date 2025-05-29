@@ -20,8 +20,8 @@ public class AnuncioService {
         return anuncioRepository.findAll();
     }
 
-    public Anuncio getName(String titulo){
-        return anuncioRepository.findByTitulo(titulo);
+    public List<Anuncio> getName(String titulo) {
+        return anuncioRepository.findByTituloContainingIgnoreCase(titulo);
     }
 
     public Anuncio add(Anuncio anuncio)

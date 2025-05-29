@@ -26,10 +26,10 @@ public class AnuncioRestController {
             return ResponseEntity.badRequest().body(new Erro("Anuncios não encontrados"));
     }
 
-    @GetMapping("{titulo}")
-    public ResponseEntity<Object> getTitulo(@PathVariable(name="titulo") String titulo){
-        Anuncio anuncio = anuncioService.getName(titulo);
-        if(anuncio!=null)
+    @GetMapping("/buscarTitulo")
+    public ResponseEntity<Object> getTitulo(@RequestParam String titulo){
+        List<Anuncio> anuncio = anuncioService.getName(titulo);
+        if(!anuncio.isEmpty())
             return ResponseEntity.ok(anuncio);
         return ResponseEntity.badRequest().body(new Erro("Anuncio não encontrado"));
     }
