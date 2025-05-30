@@ -45,6 +45,8 @@ public class AnuncioService {
         return novoAnuncio;
     }
 
+
+
     public boolean addPergunta(long id_anuncio, String texto){
         try{
             anuncioRepository.addPergunta(texto, id_anuncio);
