@@ -27,10 +27,10 @@ public class Anuncio {
     @ManyToOne
     @JoinColumn(name = "usr_id")
     private Usuario usuario;
-    @OneToMany(mappedBy = "anuncio")
+    @OneToMany(mappedBy = "anuncio", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Foto> fotos;
 
-    @OneToMany(mappedBy = "anuncio")
+    @OneToMany(mappedBy = "anuncio", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Pergunta> perguntas;
 
     public Anuncio() {

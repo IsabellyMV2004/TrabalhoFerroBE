@@ -3,6 +3,7 @@ package unoeste.fipp.mercadofipp.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import unoeste.fipp.mercadofipp.entities.Anuncio;
+import unoeste.fipp.mercadofipp.entities.Categoria;
 import unoeste.fipp.mercadofipp.entities.Foto;
 import unoeste.fipp.mercadofipp.entities.Pergunta;
 import unoeste.fipp.mercadofipp.repositories.AnuncioRepository;
@@ -18,6 +19,10 @@ public class AnuncioService {
     private FotoRepository fotoRepository;
     public List<Anuncio> getAll(){
         return anuncioRepository.findAll();
+    }
+
+    public Anuncio getById(Long id){
+        return anuncioRepository.findById(id).orElse(null);
     }
 
     public List<Anuncio> getName(String titulo) {
@@ -45,6 +50,16 @@ public class AnuncioService {
             anuncioRepository.addPergunta(texto, id_anuncio);
             return true;
         }catch(Exception e) {
+            return false;
+        }
+    }
+
+    public boolean delete(Long id){
+        Anuncio anuncio = anuncioRepository.findById(id).orElse(null);
+        try{
+            anuncioRepository.delete(anuncio);
+            return true;
+        }catch(Exception e){
             return false;
         }
     }

@@ -12,6 +12,6 @@ public interface PerguntaRepository extends JpaRepository<Pergunta, Long> {
 
     @Modifying
     @Transactional
-    @Query(value="INSERT INTO pergunta_anuncio (per_resp,per_id) VALUES (:texto, :id_pergunta) ",nativeQuery = true)
-    public void addResposta(@Param("texto") String texto, @Param("id_pergunta")Long id_pergunta);
+    @Query("UPDATE Pergunta p SET p.resposta = :texto WHERE p.id = :id_pergunta")
+    public void addResposta(@Param("texto") String texto, @Param("id_pergunta") Long id_pergunta);
 }

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import unoeste.fipp.mercadofipp.entities.Anuncio;
+import unoeste.fipp.mercadofipp.entities.Categoria;
 import unoeste.fipp.mercadofipp.entities.Erro;
 import unoeste.fipp.mercadofipp.repositories.AnuncioRepository;
 import unoeste.fipp.mercadofipp.services.AnuncioService;
@@ -24,6 +25,15 @@ public class AnuncioRestController {
             return ResponseEntity.ok(anuncios);
         else
             return ResponseEntity.badRequest().body(new Erro("Anuncios não encontrados"));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> getAnuncioId(@PathVariable(name="id")Long id){
+        Anuncio anuncio = anuncioService.getById(id);
+        if(anuncio==null)
+            return ResponseEntity.badRequest().body(new Erro("Categoria não encontrada!"));
+        else
+            return ResponseEntity.ok(anuncio);
     }
 
     @GetMapping("/buscarTitulo")
@@ -57,5 +67,13 @@ public class AnuncioRestController {
             return ResponseEntity.ok(novoAnuncio);
         else
             return ResponseEntity.badRequest().body(new Erro("Erro ao gravar o Anuncio"));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deleteAnuncio(@PathVariable Long id) {
+        if (anuncioService.delete(id))
+            return ResponseEntity.noContent().build();
+        else
+            return ResponseEntity.badRequest().body(new Erro("Erro ao deletar categoria"));
     }
 }
